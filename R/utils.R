@@ -1,4 +1,17 @@
 # helper functions
+solve.new <- function(mat)
+{
+  k = nrow(mat)
+  tiny = matrix(0,k,k)
+  diag(tiny) = 0.1*rep(1,k)
+  p = svd(mat+tiny)
+  f = p$d
+  f[f <= 0.001] = 0.001
+  m = matrix(0,k,k)
+  diag(m) = f^(-1)
+  inv = p$v%*%m%*%t(p$u)
+  return(inv)
+}
 
 # convert covariance matrices to correlation matrices
 get_cor_from_cov <- function(cov_mat){

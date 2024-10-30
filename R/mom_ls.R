@@ -1,18 +1,18 @@
 #' Least squares for moment-based regressions
 #'
-#' This function implements least squares (either ordinary least squares or 
-#' iteratively re-weighted least squares) for moment-based regressions to 
+#' This function implements least squares (either ordinary least squares or
+#' iteratively re-weighted least squares) for moment-based regressions to
 #' estimate cell-type-specific covariances
 #'
 #' @param P matrix of cell type proportions. n samples by K cell types.
 #' @param X matrix of bulk gene expression. n samples by p genes.
-#' @param methods least squares method to estimate variance and covariance. 
+#' @param methods least squares method to estimate variance and covariance.
 #'  Default to list(var='nnls', covar = 'wls'), i.e. non-negative least squares
 #'  for estimating variance and weighted least squares for estimating covariance.
 #' @param weight_th the smallest value for weights in wls. Default to NULL.
 #' @return A list of K cell-type-specific variance-covariance matrices.
 #' @export
-mom_ls <- function(P, X, 
+mom_ls <- function(P, X,
                    methods = list(var='nnls', covar = 'wls'),
                    weight_th = NULL){
   p <- ncol(X)
@@ -52,8 +52,8 @@ mom_ls <- function(P, X,
       }
       P_2_w <- P_2 / w
       y_w <- X_centered[, i] * X_centered[, j] / w
-      
-      design_m <- t(P_2_w) %*% P_2_w		
+
+      design_m <- t(P_2_w) %*% P_2_w
       inv_dm <- solve(design_m)
       Sigma_array[j, i, ] <- Sigma_array[i, j, ] <- inv_dm %*% t(P_2_w) %*% y_w
     }
