@@ -54,7 +54,7 @@ mom_ls <- function(P, X,
       y_w <- X_centered[, i] * X_centered[, j] / w
 
       design_m <- t(P_2_w) %*% P_2_w
-      inv_dm <- solve(design_m)
+      inv_dm <- solve.new(design_m)
       Sigma_array[j, i, ] <- Sigma_array[i, j, ] <- inv_dm %*% t(P_2_w) %*% y_w
     }
   }
